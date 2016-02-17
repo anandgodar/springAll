@@ -1,11 +1,16 @@
 package org.vastika.model;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 
 @Entity
 public class Member {
@@ -17,7 +22,17 @@ public class Member {
 	private String lastName;
 	private Date dateOfBirth;
 	private String emailId;
-	private String address;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	private Set<Address> address;
+
+	public Set<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(Set<Address> address) {
+		this.address = address;
+	}
 
 	public int getId() {
 		return id;
@@ -59,19 +74,13 @@ public class Member {
 		this.emailId = emailId;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		
 		result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
 		result = prime * result + ((emailId == null) ? 0 : emailId.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
@@ -89,11 +98,7 @@ public class Member {
 		if (getClass() != obj.getClass())
 			return false;
 		Member other = (Member) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
+		
 		if (dateOfBirth == null) {
 			if (other.dateOfBirth != null)
 				return false;
@@ -122,7 +127,7 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-				+ dateOfBirth + ", emailId=" + emailId + ", address=" + address + "]";
+				+ dateOfBirth + ", emailId=" + emailId + ", address=" +  "]";
 	}
 
 }
